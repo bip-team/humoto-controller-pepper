@@ -12,15 +12,18 @@ Initial setup
 Compilation
 ===========
 
-    1) qibuild configure -DHUMOTO_QI_TOOLCHAIN_DIR=/path/to/workspace/sdk
-    2) qibuild make
+If you followed instructions above and your cross-compilation toolchain is
+named "mytoolchain" then:
+
+    - Type '`make controller-pepper`' inside the root directory of the project.
+
+If your toolchain has a different name:
+
+    - Type '`make controller-pepper TC=name-of-your-toolchain`'.
 
 Inside cmake input script pepper_controller.cmake located inside cmake
 directory, user can enable or disable options for using hot-starting and
 logging as well as specify the desired solver to be used.
-
-Argument '`HUMOTO_QI_TOOLCHAIN_DIR`' can also be specified inside 
-'`<controller-pepper>/cmake/humoto.cmake`' script.
 
 Installation and usage
 ======================

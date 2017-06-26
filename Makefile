@@ -1,3 +1,5 @@
+TC?=mytoolchain
+
 all: humoto
 
 ##################################################
@@ -12,8 +14,8 @@ humoto:
 ##################################################
 
 controller-pepper: clean humoto
-	qibuild configure
-	qibuild make -j4
+	qibuild configure -c ${TC}
+	qibuild make -j4 -c ${TC}
 
 clean:
 	rm -Rf build-*
