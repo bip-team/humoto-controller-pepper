@@ -1,0 +1,5 @@
+PepperControllerParameters:
+  n_states_future: 1
+  dcm_iter_per_mpc: 1
+  log_for_simulation: false
+  print_data: false

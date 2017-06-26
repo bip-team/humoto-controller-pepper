@@ -1,0 +1,3 @@
+[submodule "humoto"]
+	path = humoto
+	url = https://github.com/bip-team/humoto

@@ -1,0 +1,31 @@
+NumberOfParameters: 5
+MPCMotionParameters_1:
+  base_velocity: [0.0, 0.0]
+  base_position: [0.0, 0.0]
+  base_angular_velocity: 0.0
+  motion_mode: 2
+  duration_ms: 3000
+MPCMotionParameters_2:
+  base_velocity: [0.0, 0.0]
+  base_position: [0.0, 0.0]
+  base_angular_velocity: 0.3
+  motion_mode: 2
+  duration_ms: 26180
+MPCMotionParameters_3:
+  base_velocity: [0.0, 0.0]
+  base_position: [0.0, 0.0]
+  base_angular_velocity: 0.0
+  motion_mode: 2
+  duration_ms: 3000
+MPCMotionParameters_4:
+  base_velocity: [0.0, 0.0]
+  base_position: [0.0, 0.0]
+  base_angular_velocity: -0.3
+  motion_mode: 2
+  duration_ms: 26180
+MPCMotionParameters_5:
+  base_velocity: [0.0, 0.0]
+  base_position: [0.0, 0.0]
+  base_angular_velocity: 0.0
+  motion_mode: 2
+  duration_ms: 3000
