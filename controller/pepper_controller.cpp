@@ -56,6 +56,8 @@ namespace pepper_controller
         BIND_METHOD(PepperController::printRootPose);
         functionName("killALMotionModule",         getName(), "kill ALMotion module");
         BIND_METHOD(PepperController::killALMotionModule);
+        functionName("setTagAngularVelocity",      getName(), "set Tag angular velocity");
+        BIND_METHOD(PepperController::setTagAngularVelocity);
 
         reset();
     }
@@ -120,6 +122,17 @@ namespace pepper_controller
         general_coords.joint_angles_[humoto::pepper_ik::ModelDescription<MODEL_FEATURES>::KneePitch]      = readings[Actuators::KNEE_PITCH];      
 
         return(general_coords);
+    }
+
+
+    /**
+     * @brief Set angular velocity of a tag
+     *
+     * @param[in] angular_velocity
+     */
+    void PepperController::setTagAngularVelocity(const std::vector<double>& angular_velocity)
+    {
+        wb_controller_.setTagAngularVelocity(angular_velocity);
     }
 
 

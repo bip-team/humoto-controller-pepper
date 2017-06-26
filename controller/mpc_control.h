@@ -30,7 +30,7 @@ namespace pepper_controller
                                                             mg_              (mg_parameters_      )
             {
                 opt_problem_.readConfig(config_reader_, true, "MPCOptimizationProblem");
-                
+                mpc_motion_parameters_.readConfig(config_reader_, true, "MPCMotionParameters");
                 // MotionParameters for unlimited motion
                 readMPCMotionParametersIdle();
             }
@@ -106,7 +106,7 @@ namespace pepper_controller
                                                      commands.back(),
                                                      sampling_interval_difference);
 
-                    mg_.shift(mpc_motion_parameters_deque_,
+                    mg_.shift(mpc_motion_parameters_,
                               mg_parameters_.subsampling_time_ms_
                               + humoto::convertSecondToMillisecond(sampling_interval_difference));
                 }
@@ -122,7 +122,7 @@ namespace pepper_controller
                 // -----------------sync-models--------------------------------
 
                 // prepare control problem for new iteration
-                humoto::ControlProblemStatus::Status control_status = mg_.update(mpc_motion_parameters_deque_,
+                humoto::ControlProblemStatus::Status control_status = mg_.update(mpc_motion_parameters_,
                                                                                  model_);
                 
                 if(control_status != humoto::ControlProblemStatus::OK)
@@ -218,7 +218,8 @@ namespace pepper_controller
             humoto::pepper_mpc::MPCforMG                mg_;
 
             // options for motion
-            std::deque<humoto::pepper_mpc::MotionParameters>  mpc_motion_parameters_deque_;
+            humoto::pepper_mpc::MotionParameters        mpc_motion_parameters_;
+            std::deque<humoto::pepper_mpc::MotionParameters>        mpc_motion_parameters_deque_;
             
             // state of the model
             humoto::pepper_mpc::ModelState                    model_state_;
