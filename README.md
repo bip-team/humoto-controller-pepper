@@ -81,3 +81,11 @@ Known issues in Aldebaran's software
     velocities. Therefore, we perform correction of the state of the model
     taking into account the measured time difference between subsequent
     function calls.
+
+
+Videos
+====================================
+
+1) front view
+
+[![Alt text for your video](https://img.youtube.com/vi/TCZlFBB3N7o/0.jpg)](https://www.youtube.com/watch?v=TCZlFBB3N7o)
