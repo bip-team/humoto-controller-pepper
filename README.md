@@ -90,6 +90,6 @@ Videos
 
 [![Alt text for your video](https://img.youtube.com/vi/TCZlFBB3N7o/0.jpg)](https://www.youtube.com/watch?v=TCZlFBB3N7o)
 
-1) side view
+2) side view
 
 [![Alt text for your video](https://img.youtube.com/vi/T3xH1MPuBBQ/0.jpg)](https://www.youtube.com/watch?v=T3xH1MPuBBQ)
