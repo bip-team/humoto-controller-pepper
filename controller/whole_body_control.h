@@ -53,10 +53,8 @@ namespace pepper_controller
                 // angular velocity of a tag
                 wbc_.setTagRefAngularVelocity(tag_angular_velocity_);
                 
-                qiLogInfo("TagAngularVelocity: ") << tag_angular_velocity_[0] << " " << tag_angular_velocity_[1] << " "
-                << tag_angular_velocity_[2] << std::endl;
-                
-                decayTagAngularVelocity(0.3);
+                //qiLogInfo("TagAngularVelocity: ") << tag_angular_velocity_[0] << " " << tag_angular_velocity_[1] << " "
+                //<< tag_angular_velocity_[2] << std::endl;
                 
                 commands.resize(mpc_time_instants.size());
                 for(std::size_t i = 0; i < mpc_time_instants.size(); ++i)
@@ -110,17 +108,6 @@ namespace pepper_controller
                 }
             }
 
-
-            /**
-             * @brief Decay tag angular velocity
-             *
-             * @param[in] decay_factor
-             */
-            void decayTagAngularVelocity(const double decay_factor)    
-            {
-                 tag_angular_velocity_ = decay_factor * tag_angular_velocity_;
-            }
-            
 
             /**
              * @brief Set tag angular velocity
