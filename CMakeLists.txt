@@ -10,6 +10,7 @@ include(pepper_controller OPTIONAL)
 set(CONTROLLER_HOTSTARTING_ENABLED         OFF          CACHE BOOL   "")
 set(CONTROLLER_LOGGING_ENABLED             OFF          CACHE BOOL   "")
 set(CONTROLLER_HUMOTO_MPC_SOLVER_NAMESPACE "quadprogpp" CACHE STRING "")
+set(CONTROLLER_HUMOTO_IK_SOLVER_NAMESPACE  "kktsolver"  CACHE STRING "")
 
 include(ExternalProject)
 

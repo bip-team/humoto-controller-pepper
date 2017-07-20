@@ -28,7 +28,7 @@ namespace pepper_controller
                                                            generalized_coordinates_(config_path + "initial-state-pepper-ik-planar.yaml", true)
             {
                 opt_problem_.readConfig(config_reader_, true, "IKOptimizationProblem");
-                solver_parameters_.solution_method_ = humoto::kktsolver::SolverParameters::CONSTRAINT_ELIMINATION_LLT;
+                solver_parameters_.solution_method_ = humoto::CONTROLLER_HUMOTO_IK_SOLVER_NAMESPACE::SolverParameters::CONSTRAINT_ELIMINATION_LLT;
                 solver_.setParameters(solver_parameters_);
                 model_.loadParameters(config_path + "pepper_fixedwheels_roottibia_planar.urdf");
                 model_.updateState(generalized_coordinates_);
@@ -162,9 +162,9 @@ namespace pepper_controller
             humoto::pepper_ik::ConfigurableOptimizationProblem<MODEL_FEATURES>  opt_problem_;
 
             // parameters of the solver
-            humoto::kktsolver::SolverParameters solver_parameters_;
+            humoto::CONTROLLER_HUMOTO_IK_SOLVER_NAMESPACE::SolverParameters solver_parameters_;
             // a solver which is giong to be used
-            humoto::kktsolver::Solver           solver_;
+            humoto::CONTROLLER_HUMOTO_IK_SOLVER_NAMESPACE::Solver           solver_;
             // solution
             humoto::Solution           solution_;
             humoto::Solution           solution_guess_;
