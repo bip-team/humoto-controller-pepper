@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 
+#author Jan Michalczyk 
 #copyright 2016-2017 INRIA. Licensed under the Apache License, Version 2.0.
 
 #script to log some robot data while moving

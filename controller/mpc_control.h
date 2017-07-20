@@ -130,7 +130,7 @@ namespace pepper_controller
                     return(false);
                 }
 
-#ifdef CONTROLLER_HOTSTARTING_ENABLED                
+#ifdef CONTROLLER_MPC_HOTSTARTING_ENABLED                
                 // form an optimization problem
                 opt_problem_.form(solution_, solution_guess_, active_set_guess_, model_, mg_, old_solution_);
                 // solve an optimization problem
@@ -224,7 +224,7 @@ namespace pepper_controller
             // state of the model
             humoto::pepper_mpc::ModelState                    model_state_;
            
-#ifdef CONTROLLER_HOTSTARTING_ENABLED                
+#ifdef CONTROLLER_MPC_HOTSTARTING_ENABLED                
             // hotstarting
             humoto::ActiveSet                                        active_set_guess_;
             humoto::ActiveSet                                        active_set_actual_;

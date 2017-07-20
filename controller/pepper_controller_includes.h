@@ -25,11 +25,10 @@
 // Enable YAML configuration files (must be first)
 #include "humoto/config_yaml.h"
 #include "humoto/humoto.h"
-#include "humoto/kktsolver.h"
-#include "humoto/pepper_ik.h"
 
 #include "pepper_controller_config.h"
 
+#include "humoto/pepper_ik.h"
 #include "humoto/pepper_mpc.h"
 
 #define MODEL_FEATURES humoto::pepper_ik::ModelFeatures::FIXED_WHEELS | humoto::pepper_ik::ModelFeatures::ROOT_PLANAR
