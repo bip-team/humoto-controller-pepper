@@ -50,7 +50,7 @@ namespace pepper_controller
                 std::adjacent_difference(mpc_time_instants.begin(), mpc_time_instants.end(), mpc_time_instants.begin());
                 
                 // velocity of a tag
-                wbc_.setTagVelocity(tag_velocity_);
+                wbc_.setTagRefVelocity(tag_velocity_);
                 
                 //qiLogInfo("TagVelocity: ") << tag_velocity_[0] << " " << tag_velocity_[1] << " "
                 //<< tag_velocity_[2] << tag_velocity_[3] << tag_velocity_[4] << std::endl;
