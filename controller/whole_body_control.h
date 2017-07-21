@@ -28,12 +28,11 @@ namespace pepper_controller
                                                            generalized_coordinates_(config_path + "initial-state-pepper-ik-planar.yaml", true)
             {
                 opt_problem_.readConfig(config_reader_, true, "IKOptimizationProblem");
-                //solver_parameters_.solution_method_ = humoto::CONTROLLER_HUMOTO_IK_SOLVER_NAMESPACE::SolverParameters::CONSTRAINT_ELIMINATION_LLT;
                 solver_.setParameters(solver_parameters_);
                 model_.loadParameters(config_path + "pepper_fixedwheels_roottibia_planar.urdf");
                 model_.updateState(generalized_coordinates_);
                 
-                tag_angular_velocity_.setZero();
+                tag_velocity_.setZero();
             }
 
 
@@ -50,11 +49,11 @@ namespace pepper_controller
             {
                 std::adjacent_difference(mpc_time_instants.begin(), mpc_time_instants.end(), mpc_time_instants.begin());
                 
-                // angular velocity of a tag
-                wbc_.setTagRefAngularVelocity(tag_angular_velocity_);
+                // velocity of a tag
+                wbc_.setTagVelocity(tag_velocity_);
                 
-                //qiLogInfo("TagAngularVelocity: ") << tag_angular_velocity_[0] << " " << tag_angular_velocity_[1] << " "
-                //<< tag_angular_velocity_[2] << std::endl;
+                //qiLogInfo("TagVelocity: ") << tag_velocity_[0] << " " << tag_velocity_[1] << " "
+                //<< tag_velocity_[2] << tag_velocity_[3] << tag_velocity_[4] << std::endl;
                 
                 commands.resize(mpc_time_instants.size());
                 for(std::size_t i = 0; i < mpc_time_instants.size(); ++i)
@@ -110,22 +109,21 @@ namespace pepper_controller
 
 
             /**
-             * @brief Set tag angular velocity
+             * @brief Set tag velocity
              *
-             * @param[in] tag_angular_velocity
+             * @param[in] tag_velocity
              */
-            void setTagAngularVelocity(const std::vector<double>& tag_angular_velocity)
+            void setTagVelocity(const std::vector<double>& tag_velocity)
             {
-                if(tag_angular_velocity.size() != tag_angular_velocity_.size())
+                if(tag_velocity.size() != humoto::rbdl::SpatialType::getNumberOfElements(humoto::rbdl::SpatialType::COMPLETE))
                 {
-                    HUMOTO_THROW_MSG("Velocity vector sizes must match.");
+                    HUMOTO_THROW_MSG("Wrong velocity vector size.");
                 }
                 
-                for(std::size_t i = 0; i < tag_angular_velocity.size(); ++i)
+                for(std::size_t i = 0; i < tag_velocity.size(); ++i)
                 {
-                    tag_angular_velocity_(i) = tag_angular_velocity[i];
+                    tag_velocity_(i) = tag_velocity[i];
                 }
-
             }
 
 
@@ -212,6 +210,6 @@ namespace pepper_controller
             humoto::pepper_ik::GeneralizedCoordinates<MODEL_FEATURES>  generalized_coords_to_update_;
             
             // angular velocity of the tag
-            etools::Vector3                                            tag_angular_velocity_;
+            etools::Vector6                                            tag_velocity_;
     };
 } //pepper_controller
