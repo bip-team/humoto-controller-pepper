@@ -325,6 +325,7 @@ namespace pepper_controller
         wb_commands_.clear();
         mpc_time_instants_.resize(pepper_controller_parameters_.n_states_future_);
         ik_motion_parameters_vector_.resize(pepper_controller_parameters_.n_states_future_);
+        wb_controller_.setTagVelocityZero();
     }
 
 

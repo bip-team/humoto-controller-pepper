@@ -31,8 +31,7 @@ namespace pepper_controller
                 solver_.setParameters(solver_parameters_);
                 model_.loadParameters(config_path + "pepper_fixedwheels_roottibia_planar.urdf");
                 model_.updateState(generalized_coordinates_);
-                
-                tag_velocity_.setZero();
+                setTagVelocityZero(); 
             }
 
 
@@ -105,6 +104,15 @@ namespace pepper_controller
                     
                     model_.getRobotCommand(commands[i], mpc_time_instants[i]);
                 }
+            }
+
+
+            /**
+             * @brief Set tag velocity to zero
+             */
+            void setTagVelocityZero()
+            {
+                tag_velocity_.setZero();
             }
 
 
