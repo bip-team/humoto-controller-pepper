@@ -102,6 +102,7 @@ namespace pepper_controller
             void setUpperJointsStiffness(const std::size_t time_offset, const float value);
             void setWheelsStiffness(const std::size_t time_offset, const float value);
             void setTagVelocity(const std::vector<double>& velocity);
+            void setTagVelocityByName(const std::vector<double>& velocity, const std::string& tag_name);
             void startControl();
             void stopControl();
             void goInitialPose(const int execution_time_ms);

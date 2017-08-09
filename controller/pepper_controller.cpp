@@ -56,8 +56,8 @@ namespace pepper_controller
         BIND_METHOD(PepperController::printRootPose);
         functionName("killALMotionModule",         getName(), "kill ALMotion module");
         BIND_METHOD(PepperController::killALMotionModule);
-        functionName("setTagVelocity",             getName(), "set Tag complete velocity");
-        BIND_METHOD(PepperController::setTagVelocity);
+        functionName("setTagVelocityByName",       getName(), "set Tag complete velocity and give tag name");
+        BIND_METHOD(PepperController::setTagVelocityByName);
 
         reset();
     }
@@ -123,16 +123,17 @@ namespace pepper_controller
 
         return(general_coords);
     }
-
-
+    
+    
     /**
      * @brief Set velocity of a tag
      *
      * @param[in] velocity
+     * @param[in] tag_name
      */
-    void PepperController::setTagVelocity(const std::vector<double>& velocity)
+    void PepperController::setTagVelocityByName(const std::vector<double>& velocity, const std::string& tag_name)
     {
-        wb_controller_.setTagVelocity(velocity);
+        wb_controller_.setTagVelocity(velocity, tag_name);
     }
 
 

@@ -51,9 +51,6 @@ namespace pepper_controller
                 // velocity of a tag
                 wbc_.setTagRefVelocity(tag_velocity_);
                 
-                //qiLogInfo("TagVelocity: ") << tag_velocity_[0] << " " << tag_velocity_[1] << " "
-                //<< tag_velocity_[2] << tag_velocity_[3] << tag_velocity_[4] << std::endl;
-                
                 commands.resize(mpc_time_instants.size());
                 for(std::size_t i = 0; i < mpc_time_instants.size(); ++i)
                 {
@@ -108,20 +105,28 @@ namespace pepper_controller
 
 
             /**
-             * @brief Set tag velocity to zero
+             * @brief Set tag(s) velocity to zero
              */
             void setTagVelocityZero()
             {
-                tag_velocity_.setZero();
+                if(!tag_velocity_.empty())
+                {
+                    std::map<std::string, etools::Vector6>::iterator it;
+                    for(it = tag_velocity_.begin(); it != tag_velocity_.end(); ++it)
+                    {
+                        (it->second).setZero(); 
+                    }
+                }
             }
 
-
+            
             /**
              * @brief Set tag velocity
              *
              * @param[in] tag_velocity
+             * @param[in] tag_name
              */
-            void setTagVelocity(const std::vector<double>& tag_velocity)
+            void setTagVelocity(const std::vector<double>& tag_velocity, const std::string& tag_name)
             {
                 if(tag_velocity.size() != humoto::rbdl::SpatialType::getNumberOfElements(humoto::rbdl::SpatialType::COMPLETE))
                 {
@@ -130,7 +135,7 @@ namespace pepper_controller
                 
                 for(std::size_t i = 0; i < tag_velocity.size(); ++i)
                 {
-                    tag_velocity_(i) = tag_velocity[i];
+                    tag_velocity_[tag_name](i) = tag_velocity[i];
                 }
             }
 
@@ -218,6 +223,6 @@ namespace pepper_controller
             humoto::pepper_ik::GeneralizedCoordinates<MODEL_FEATURES>  generalized_coords_to_update_;
             
             // angular velocity of the tag
-            etools::Vector6                                            tag_velocity_;
+            std::map<std::string, etools::Vector6>                     tag_velocity_;
     };
 } //pepper_controller
