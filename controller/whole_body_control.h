@@ -132,10 +132,11 @@ namespace pepper_controller
                 {
                     HUMOTO_THROW_MSG("Wrong velocity vector size.");
                 }
-                
+
+                etools::Vector6 &velocity = tag_velocity_[tag_name];    
                 for(std::size_t i = 0; i < tag_velocity.size(); ++i)
                 {
-                    tag_velocity_[tag_name](i) = tag_velocity[i];
+                    velocity(i) = tag_velocity[i];
                 }
             }
 
