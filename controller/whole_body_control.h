@@ -81,12 +81,12 @@ namespace pepper_controller
                         humoto::pepper_ik::MotionParameters motion_parameters_errors;
                         model_.getStateError(motion_parameters_errors, motion_parameters_vector[i]);
 
-                        if(motion_parameters_errors.base_com_position_.norm()
-                            + motion_parameters_errors.base_orientation_rpy_.norm()
-                            + motion_parameters_errors.body_com_position_.norm() < wbc_parameters_.motion_parameters_tolerance_)
-                        {
-                            break;
-                        }
+                        //if(motion_parameters_errors.base_com_position_.norm()
+                        //    + motion_parameters_errors.base_orientation_rpy_.norm()
+                        //    + motion_parameters_errors.body_com_position_.norm() < wbc_parameters_.motion_parameters_tolerance_)
+                        //{
+                        //    break;
+                        //}
 
                         if(solution_.x_.lpNorm<Eigen::Infinity>() < wbc_parameters_.joint_angle_error_tolerance_)
                         {
