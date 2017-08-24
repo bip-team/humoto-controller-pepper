@@ -99,8 +99,8 @@ namespace pepper_controller
             {
                 //etools::Vector6 base_velocity = wb_controller.getBaseVelocityInGlobal();
 
-                //mpc_motion_parameters_.base_velocity_         << base_velocity(0), base_velocity(1); 
-                //mpc_motion_parameters_.base_angular_velocity_ =  base_velocity(5);
+                //mpc_motion_parameters_.base_velocity_         << base_velocity(3), base_velocity(4); 
+                //mpc_motion_parameters_.base_angular_velocity_ =  base_velocity(2);
                 
                 // -----------------feedback--------------------------------
                 if(!commands.empty())
