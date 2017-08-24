@@ -24,6 +24,7 @@ namespace pepper_controller
              */
             WBController(const std::string& config_path) : config_reader_          (config_path + "pepper-controller-config.yaml"),
                                                            wbc_parameters_         (config_reader_, true), 
+                                                           wbc_                    (wbc_parameters_),
                                                            motion_parameters_      (config_reader_, true, "IKMotionParameters"),
                                                            generalized_coordinates_(config_path + "initial-state-pepper-ik-planar.yaml", true)
             {
@@ -31,7 +32,7 @@ namespace pepper_controller
                 solver_.setParameters(solver_parameters_);
                 model_.loadParameters(config_path + "pepper_fixedwheels_roottibia_planar.urdf");
                 model_.updateState(generalized_coordinates_);
-                setTagVelocityZero(); 
+                setTagsVelocityZero(); 
             }
 
 
@@ -48,12 +49,13 @@ namespace pepper_controller
             {
                 std::adjacent_difference(mpc_time_instants.begin(), mpc_time_instants.end(), mpc_time_instants.begin());
                 
-                // velocity of a tag
-                wbc_.setTagRefVelocity(tag_velocity_);
-                
                 commands.resize(mpc_time_instants.size());
                 for(std::size_t i = 0; i < mpc_time_instants.size(); ++i)
                 {
+                    // set velocities of tags in wbc
+                    wbc_.setTagsVelocity(tags_velocity_);
+                    wbc_.computeTagsDesiredPoseInGlobal(model_);
+                    
                     model_.saveCurrentState();
                     for(std::size_t j = 0;; ++j)
                     {
@@ -77,16 +79,6 @@ namespace pepper_controller
                         // extract next model state from the solution and update model
                         generalized_coordinates_ = wbc_.getNextGeneralizedCoordinates(solution_, model_);
                         model_.updateState(generalized_coordinates_);
-                        
-                        humoto::pepper_ik::MotionParameters motion_parameters_errors;
-                        model_.getStateError(motion_parameters_errors, motion_parameters_vector[i]);
-
-                        //if(motion_parameters_errors.base_com_position_.norm()
-                        //    + motion_parameters_errors.base_orientation_rpy_.norm()
-                        //    + motion_parameters_errors.body_com_position_.norm() < wbc_parameters_.motion_parameters_tolerance_)
-                        //{
-                        //    break;
-                        //}
 
                         if(solution_.x_.lpNorm<Eigen::Infinity>() < wbc_parameters_.joint_angle_error_tolerance_)
                         {
@@ -107,12 +99,12 @@ namespace pepper_controller
             /**
              * @brief Set tag(s) velocity to zero
              */
-            void setTagVelocityZero()
+            void setTagsVelocityZero()
             {
-                if(!tag_velocity_.empty())
+                if(!tags_velocity_.empty())
                 {
                     std::map<std::string, etools::Vector6>::iterator it;
-                    for(it = tag_velocity_.begin(); it != tag_velocity_.end(); ++it)
+                    for(it = tags_velocity_.begin(); it != tags_velocity_.end(); ++it)
                     {
                         (it->second).setZero(); 
                     }
@@ -133,11 +125,23 @@ namespace pepper_controller
                     HUMOTO_THROW_MSG("Wrong velocity vector size.");
                 }
 
-                etools::Vector6 &velocity = tag_velocity_[tag_name];    
+                etools::Vector6 &velocity = tags_velocity_[tag_name];    
                 for(std::size_t i = 0; i < tag_velocity.size(); ++i)
                 {
                     velocity(i) = tag_velocity[i];
                 }
+            }
+            
+
+            /**
+             * @brief Get velocity of the base in global frame
+             *
+             * @return velocity of the base
+             */
+            etools::Vector6 getBaseVelocityInGlobal() const
+            {
+                return(wbc_.getTagVelocityInGlobal(model_, "CameraTop_optical_frame",
+                                                    humoto::rbdl::SpatialType::COMPLETE));
             }
 
 
@@ -224,6 +228,6 @@ namespace pepper_controller
             humoto::pepper_ik::GeneralizedCoordinates<MODEL_FEATURES>  generalized_coords_to_update_;
             
             // angular velocity of the tag
-            std::map<std::string, etools::Vector6>                     tag_velocity_;
+            std::map<std::string, etools::Vector6>                     tags_velocity_;
     };
 } //pepper_controller

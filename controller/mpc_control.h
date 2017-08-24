@@ -97,6 +97,11 @@ namespace pepper_controller
                      const double sampling_interval_difference,
                      const std::vector<double>& mpc_time_instants)
             {
+                //etools::Vector6 base_velocity = wb_controller.getBaseVelocityInGlobal();
+
+                //mpc_motion_parameters_.base_velocity_         << base_velocity(0), base_velocity(1); 
+                //mpc_motion_parameters_.base_angular_velocity_ =  base_velocity(5);
+                
                 // -----------------feedback--------------------------------
                 if(!commands.empty())
                 {
