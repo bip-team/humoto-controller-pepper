@@ -118,12 +118,7 @@ namespace pepper_controller
                 // -----------------feedback--------------------------------
                 
                 // -----------------sync-models--------------------------------
-                model_state_.update(wb_controller.getModel().getBaseMass(),
-                                    wb_controller.getModel().getBodyMass(),
-                                    wb_controller.getModel().getBaseCoM(),
-                                    wb_controller.getModel().getBodyCoM(), 
-                                    wb_controller.getModel().getBaseYaw());
-                model_.updateState(model_state_);
+                synchronizeModels(wb_controller);
                 // -----------------sync-models--------------------------------
 
                 // prepare control problem for new iteration
@@ -164,6 +159,22 @@ namespace pepper_controller
                 return(true);
             }
             
+
+            /**
+             * @brief Synchronize mpc model to whole-body model
+             *
+             * @param[in] wb_controller
+             */
+            void synchronizeModels(const WBController& wb_controller)
+            {
+                model_state_.update(wb_controller.getModel().getBaseMass(),
+                                    wb_controller.getModel().getBodyMass(),
+                                    wb_controller.getModel().getBaseCoM(),
+                                    wb_controller.getModel().getBodyCoM(), 
+                                    wb_controller.getModel().getBaseYaw());
+                model_.updateState(model_state_);
+            }
+
 
             /**
              * @brief Get MPC parameters
