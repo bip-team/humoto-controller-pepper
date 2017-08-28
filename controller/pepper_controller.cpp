@@ -286,6 +286,7 @@ namespace pepper_controller
      */
     void PepperController::startControl()
     {
+        mpc_controller_.synchronizeModels(wb_controller_);
         connectToDCMLoop();
     }
 
