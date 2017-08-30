@@ -138,10 +138,9 @@ namespace pepper_controller
              *
              * @return velocity of the base
              */
-            etools::Vector6 getBaseVelocityInGlobal() const
+            etools::Vector6 getBaseVelocityInGlobal()
             {
-                return(wbc_.getTagVelocityInGlobal(model_, "CameraTop_optical_frame",
-                                                    humoto::rbdl::SpatialType::COMPLETE));
+                return(wbc_.getBaseVelocityInGlobal(model_));
             }
 
 
