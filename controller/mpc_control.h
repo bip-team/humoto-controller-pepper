@@ -29,8 +29,8 @@ namespace pepper_controller
                                                             mg_parameters_   (config_reader_, true),
                                                             mg_              (mg_parameters_      )
             {
-                opt_problem_.readConfig(config_reader_, true, "MPCOptimizationProblem");
-                
+                bool crash_on_missing_entry = true;
+                opt_problem_.readConfig(config_reader_, "MPCOptimizationProblem", crash_on_missing_entry);
                 // MotionParameters for unlimited motion
                 readMPCMotionParametersIdle();
             }
@@ -55,7 +55,7 @@ namespace pepper_controller
              */
             void readMPCMotionParameters(const std::string& filename)
             {
-                humoto::config::Reader config_reader(filename);
+                humoto::config::yaml::Reader config_reader(filename);
                 bool crash_on_missing_entry = true;
                 
                 std::size_t n_of_parameters;
@@ -68,8 +68,8 @@ namespace pepper_controller
                     ss << i;
 
                     humoto::pepper_mpc::MotionParameters mpc_motion_parameters(config_reader,
-                                                                           crash_on_missing_entry,
-                                                                           "MPCMotionParameters_" + ss.str());
+                                                                           "MPCMotionParameters_" + ss.str(),
+                                                                            crash_on_missing_entry);
                     mpc_motion_parameters_deque_.push_back(mpc_motion_parameters);
                 }
 
@@ -208,7 +208,7 @@ namespace pepper_controller
 
 
         private:
-            humoto::config::Reader                              config_reader_;
+            humoto::config::yaml::Reader                        config_reader_;
             // optimization problem (a stack of tasks / hierarchy)
             humoto::pepper_mpc::ConfigurableOptimizationProblem opt_problem_;
 
