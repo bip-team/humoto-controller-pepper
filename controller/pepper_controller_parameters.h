@@ -16,25 +16,22 @@ namespace pepper_controller
      */
     class HUMOTO_LOCAL PepperControllerParameters : public humoto::config::ConfigurableBase
     {
+        #define HUMOTO_CONFIG_SECTION_ID "PepperControllerParameters"
+        #define HUMOTO_CONFIG_CONSTRUCTOR PepperControllerParameters
+        #define HUMOTO_CONFIG_ENTRIES \
+            HUMOTO_CONFIG_SCALAR_(n_states_future) \
+            HUMOTO_CONFIG_SCALAR_(dcm_iter_per_mpc)\
+            HUMOTO_CONFIG_SCALAR_(log_for_simulation)
+        #include HUMOTO_CONFIG_DEFINE_ACCESSORS
+        
+        
         public:
             std::size_t n_states_future_;
             std::size_t dcm_iter_per_mpc_;
             bool        log_for_simulation_;
 
 
-        protected:
-            #define HUMOTO_CONFIG_SECTION_ID "PepperControllerParameters"
-            #define HUMOTO_CONFIG_ENTRIES \
-                HUMOTO_CONFIG_SCALAR_(n_states_future); \
-                HUMOTO_CONFIG_SCALAR_(dcm_iter_per_mpc);\
-                HUMOTO_CONFIG_SCALAR_(log_for_simulation);
-            #include "humoto/config/define_accessors.h"
-
-
         public:
-            HUMOTO_DEFINE_CONFIG_CONSTRUCTORS(PepperControllerParameters)
-
-
             /**
              * @brief Default constructor
              */

@@ -22,13 +22,14 @@ namespace pepper_controller
              *
              * @param[in] config_path
              */
-            WBController(const std::string& config_path) : config_reader_          (config_path + "pepper-controller-config.yaml"),
-                                                           wbc_parameters_         (config_reader_, true), 
-                                                           wbc_                    (wbc_parameters_),
-                                                           motion_parameters_      (config_reader_, true, "IKMotionParameters"),
-                                                           generalized_coordinates_(config_path + "initial-state-pepper-ik-planar.yaml", true)
+            WBController(const std::string& config_path) : config_reader_    (config_path + "pepper-controller-config.yaml"),
+                                                           wbc_parameters_   (config_reader_, true), 
+                                                           wbc_              (wbc_parameters_),
+                                                           motion_parameters_(config_reader_, "IKMotionParameters", true)
             {
-                opt_problem_.readConfig(config_reader_, true, "IKOptimizationProblem");
+                bool crash_on_missing_entry = true;
+                generalized_coordinates_.readConfig<humoto::config::yaml::Reader>(config_path + "initial-state-pepper-ik-planar.yaml", crash_on_missing_entry);
+                opt_problem_.readConfig<humoto::config::yaml::Reader>(config_reader_, "IKOptimizationProblem", crash_on_missing_entry);
                 solver_.setParameters(solver_parameters_);
                 model_.loadParameters(config_path + "pepper_fixedwheels_roottibia_planar.urdf");
                 model_.updateState(generalized_coordinates_);
@@ -200,7 +201,7 @@ namespace pepper_controller
 
 
         private:
-            humoto::config::Reader              config_reader_;
+            humoto::config::yaml::Reader                                        config_reader_;
             // optimization problem (a stack of tasks / hierarchy)
             humoto::pepper_ik::ConfigurableOptimizationProblem<MODEL_FEATURES>  opt_problem_;
 

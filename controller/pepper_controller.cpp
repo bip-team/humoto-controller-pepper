@@ -24,8 +24,7 @@ namespace pepper_controller
                            memory_fast_access_(boost::shared_ptr<AL::ALMemoryFastAccess>(new AL::ALMemoryFastAccess())),
                            config_path_   (config_path),
                            wb_controller_ (config_path),
-                           mpc_controller_(config_path),
-                           pepper_controller_parameters_(config_path + "pepper-controller-parameters.yaml")
+                           mpc_controller_(config_path)
 #ifdef CONTROLLER_LOGGING_ENABLED
                            ,pepper_logger_("/home/nao/pepper-controller-log.m")
 #endif                           
@@ -58,6 +57,9 @@ namespace pepper_controller
         BIND_METHOD(PepperController::killALMotionModule);
         functionName("setTagVelocityByName",       getName(), "set Tag complete velocity and give tag name");
         BIND_METHOD(PepperController::setTagVelocityByName);
+
+        pepper_controller_parameters_.readConfig<humoto::config::yaml::Reader>(config_path +
+                                                         "pepper-controller-parameters.yaml");
 
         reset();
     }
@@ -158,8 +160,8 @@ namespace pepper_controller
             model.saveCurrentState();
 
             bool crash_on_missing_entry = true;
-            humoto::pepper_ik::GeneralizedCoordinates<MODEL_FEATURES> general_coords_to(config_path_ + "rest-state-pepper-ik-planar.yaml",
-                                                                                        crash_on_missing_entry);
+            humoto::pepper_ik::GeneralizedCoordinates<MODEL_FEATURES> general_coords_to;
+            general_coords_to.readConfig<humoto::config::yaml::Reader>(config_path_ + "rest-state-pepper-ik-planar.yaml", crash_on_missing_entry);
            
             etools::Vector3 root_orientation_from;
             etools::Vector3 root_position_from;
@@ -216,8 +218,8 @@ namespace pepper_controller
             model.saveCurrentState();
 
             bool crash_on_missing_entry = true;
-            humoto::pepper_ik::GeneralizedCoordinates<MODEL_FEATURES> general_coords_to(config_path_ + "initial-state-pepper-ik-planar.yaml",
-                                                                                        crash_on_missing_entry);
+            humoto::pepper_ik::GeneralizedCoordinates<MODEL_FEATURES> general_coords_to;
+            general_coords_to.readConfig<humoto::config::yaml::Reader>(config_path_ + "initial-state-pepper-ik-planar.yaml", crash_on_missing_entry);
             // use this model to log final state
             model.updateState(general_coords_to);
 
