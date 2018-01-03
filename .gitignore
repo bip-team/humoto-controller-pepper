@@ -1,2 +1,6 @@
 build*
 controller/pepper_controller_config.h
+doc/*.log
+doc/*.aux
+doc/*.pdf
+doc/*.out

@@ -53,6 +53,11 @@ robot. Once copied, the file should be declared inside the file 'autoload.ini' a
 rebooted to reread the file. This can be done using the command 'nao restart'.
 
 \subsection{Usage}
+Controller works with motion configuration files written in yaml language. Examples of such files are in the
+<controller-pepper>/config/ directory. All files from this directory should be copied to \$HOME/config-pepper/ 
+directory on the robot as this is the default path where the controller will look for the configuration files 
+at runtime. Path of the directory with configuration files can be changed, however this change needs to be reflected in
+the PepperController class contructor.
 
 \subsection{Using visualization tool}
 \noindent If compiled with logging enabled, one can make use of the visualization tool based off OpenSceneGraph
