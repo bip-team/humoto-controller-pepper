@@ -25,21 +25,21 @@ this toolchain version. It can be obtained from the Aldebaran's official reposit
 \noindent To compile:
 \noindent If your cross-compilation toolchain is named "mytoolchain":
 
-- Type '`make controller-pepper`' inside the root directory of the project.
+- Type \texttt{'make controller-pepper'} inside the root directory of the project.\\
 
 \noindent If your toolchain has a different name:
 
-- Type '`make controller-pepper TC=name-of-your-toolchain`'.\\
+- Type \texttt{'make controller-pepper TC=name-of-your-toolchain'}.\\
 
 \noindent Inside cmake input script pepper\_controller.cmake located inside cmake directory, user can enable or disable
 options for using hot-starting and logging as well as specify the desired solver to be used. The following compilation
 options are available:\\
 
-\noindent CONTROLLER\_MPC\_HOTSTARTING\_ENABLED - this boolean option activates hotstarting for the MPC resolution.\\
-\noindent CONTROLLER\_LOGGING\_ENABLED - this boolean option activates logging.\\
-\noindent CONTROLLER\_HUMOTO\_MPC\_SOLVER\_NAMESPACE - this variable specifies the name of the solver used for MPC resolution. 
+\noindent \texttt{CONTROLLER\_MPC\_HOTSTARTING\_ENABLED} - this boolean option activates hotstarting for the MPC resolution.\\
+\noindent \texttt{CONTROLLER\_LOGGING\_ENABLED} - this boolean option activates logging.\\
+\noindent \texttt{CONTROLLER\_HUMOTO\_MPC\_SOLVER\_NAMESPACE} - this variable specifies the name of the solver used for MPC resolution. 
 When using it make sure humoto is compiled with the respective solver.\\
-\noindent CONTROLLER\_HUMOTO\_IK\_SOLVER\_NAMESPACE - this variable specifies the name of the solver used for IK resolution. 
+\noindent \texttt{CONTROLLER\_HUMOTO\_IK\_SOLVER\_NAMESPACE} - this variable specifies the name of the solver used for IK resolution. 
 When using it make sure humoto is compiled with the respective solver.\\
 
 \noindent Inside the same directory user can also specify options for humoto compilation inside humoto.cmake file.
@@ -47,18 +47,48 @@ For possible options refer to the documentation of humoto.
 
 \subsection{Installation}
 \noindent The project compiles down to a shared object library (.so) file which is to be copied over onto the robot (for example
-using scp). The library can be placed for example in the directory lib/ in the home directory of the nao user on the
+using scp). The library can be placed for example in the directory \$HOME/lib/ in the home directory of the nao user on the
 robot. Once copied, the file should be declared inside the file 'autoload.ini' as follows:
 '/path/to/libpeppercontroller.so'. After changing the 'autoload.ini' file naoqi operating system of the robot should be
 rebooted to reread the file. This can be done using the command 'nao restart'.
 
 \subsection{Usage}
-Controller works with motion configuration files written in yaml language. Examples of such files are in the
-<controller-pepper>/config/ directory. All files from this directory should be copied to \$HOME/config-pepper/ 
+\noindent Controller works with motion configuration files written in yaml language. Examples of such files are in the
+controller-pepper/config/ directory. All files from this directory should be copied to \$HOME/config-pepper/ 
 directory on the robot as this is the default path where the controller will look for the configuration files 
 at runtime. Path of the directory with configuration files can be changed, however this change needs to be reflected in
-the PepperController class contructor.
+the PepperController class contructor.\\ \\
+\noindent Motion of the robot can be specified using a sequence of motion parameters. In this case on top of the
+respective .yaml file one needs to specify the number of motion primitives and below define each motion parameters
+primitive.
+\noindent Convenient way of communication with the PepperController module is through the Python interface. Python scripts are located
+inside the controller-pepper/python directory., One can thus use 'move.py' script to command a desired specified
+sequence of motion (previously defined inside a .yaml file). By default the script connects to the ip adress
+('10.42.0.61'). The IP address of the robot can be specified using '-b 11.22.33.44', port using '-p 9559'. The default
+port is 9559. Last parameter is the yaml configuration file with the desired motion specified as '-c name-of-the-file'.
+Examples of configuration files with motion parameters are in the 'controller-pepper/config/' directory. Before using,
+inside the script one should modify parameters such as desired joints stiffness, time to reach initial and rest position
+to their liking.\\ \\
+
+\noindent Here below we include a short description of the calls to the module's interface through python.
+\begin{enumerate}
+\item \texttt{peppercontroller\_proxy.killALMotionModule()} - removes ALMotion module from the naoqi
+\item \texttt{peppercontroller\_proxy.setActuatorsStiffness(time, value)} - sets all actuators stiffness to desired
+value within given time interval
+\item \texttt{peppercontroller\_proxy.goInitialPose(8000)} - makes the robot go to the initial pose
+\item \texttt{peppercontroller\_proxy.startControl()} - starts the controller
+\item \texttt{peppercontroller\_proxy.setMPCMotionParameters(options.CONFIG)} - loads the desired motion sequence
+\item \texttt{peppercontroller\_proxy.stopControl()} - stops the controller
+\item \texttt{peppercontroller\_proxy.goRestPose(8000)} - makes the robot go to the resting pose in the given time
+\item \texttt{peppercontroller\_proxy.setActuatorsStiffness(2000, 0.0)} - sets the stiffness to zero
+\end{enumerate}
+
+\noindent Commands above can also be used interactively from, for example, IPython.
 
 \subsection{Using visualization tool}
 \noindent If compiled with logging enabled, one can make use of the visualization tool based off OpenSceneGraph
-available on github: https://github.com/bip-team/osg-robot-visualizer.git.
+available on github: https://github.com/bip-team/osg-robot-visualizer.git. \\
+\noindent It is possible to, instead of sending commands to the robot, stream them into a file. Such file can then serve
+to replay the motion of the robot in the visualization tool. This way one can early detect possible failiures of the
+system without running the risk of damaging the hardware.
+
