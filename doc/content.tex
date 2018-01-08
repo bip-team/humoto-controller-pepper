@@ -1,9 +1,9 @@
 \section{Prerequisites}
 
 \subsection{Naoqi workspace preparation}
-\noindent It is recommended to work with workspaces when developing software for Softbank robots. This is because
-Softbank uses qibuild for building the software developed for their robots. Hence, the following steps are recommended
-to work with humoto-pepper-controller within a qibuild workspace (unless another workspace is to be used):
+\noindent It is recommended to work with qibuild workspaces when developing software for Softbank robots. Qibuild is a
+convenience wrapper over CMake. Hence, the following steps are recommended
+to work with humoto-pepper-controller within a qibuild workspace (unless existing workspace is to be used):
 
 \begin{enumerate}
 \item \texttt{mkdir /path/to/workspace/}
@@ -18,12 +18,12 @@ to work with humoto-pepper-controller within a qibuild workspace (unless another
 python packages manager.
 
 \subsection{Compilation}
-\noindent For compilation of the code the Aldebaran (Softbank Robotics) cross-compilation toolchain is reqired. The
+\noindent For compilation of the code the Aldebaran (Softbank Robotics) cross-compilation toolchain is required. The
 controller has been developed using the toolchain of version: ctc-linux32-atom-2.4.3.28. Hence, it is recommended to use
 this toolchain version. It can be obtained from the Aldebaran's official repositories (after registration).\\
 
 \noindent To compile:
-\noindent If your cross-compilation toolchain is named "mytoolchain":
+\noindent If your cross-compilation toolchain is named \texttt{'mytoolchain'}:
 
 - Type \texttt{'make controller-pepper'} inside the root directory of the project.\\
 
@@ -31,26 +31,32 @@ this toolchain version. It can be obtained from the Aldebaran's official reposit
 
 - Type \texttt{'make controller-pepper TC=name-of-your-toolchain'}.\\
 
-\noindent Inside cmake input script pepper\_controller.cmake located inside cmake directory, user can enable or disable
-options for using hot-starting and logging as well as specify the desired solver to be used. The following compilation
-options are available:\\
+\noindent Inside cmake input script \texttt{pepper\_controller.cmake} located inside cmake directory, user can enable or disable
+options for using hot-starting and logging as well as specify the desired solver to be used.\\
 
-\noindent \texttt{CONTROLLER\_MPC\_HOTSTARTING\_ENABLED} - this boolean option activates hotstarting for the MPC resolution.\\
-\noindent \texttt{CONTROLLER\_LOGGING\_ENABLED} - this boolean option activates logging.\\
-\noindent \texttt{CONTROLLER\_HUMOTO\_MPC\_SOLVER\_NAMESPACE} - this variable specifies the name of the solver used for MPC resolution. 
-When using it make sure humoto is compiled with the respective solver.\\
-\noindent \texttt{CONTROLLER\_HUMOTO\_IK\_SOLVER\_NAMESPACE} - this variable specifies the name of the solver used for IK resolution. 
-When using it make sure humoto is compiled with the respective solver.\\
+\noindent The following compilation options are available for use with CMake:\\ \\
+\begin{tabular}{|l|p{5cm}|}
+\hline
+Option & Description \\
+\hline
+\texttt{CONTROLLER\_MPC\_HOTSTARTING\_ENABLED} & This boolean option activates hotstarting for the MPC resolution.\\
+\texttt{CONTROLLER\_LOGGING\_ENABLED} & This boolean option activates logging.\\
+\texttt{CONTROLLER\_HUMOTO\_MPC\_SOLVER\_NAMESPACE} & This variable specifies the name of the solver used for
+MPC resolution. When using it make sure humoto is compiled with the respective solver. \\
+\texttt{CONTROLLER\_HUMOTO\_IK\_SOLVER\_NAMESPACE} & This variable specifies the name of the solver used for IK
+resolution. When using it make sure humoto is compiled with the respective solver.\\
+\hline
+\end{tabular} \\
 
-\noindent Inside the same directory user can also specify options for humoto compilation inside humoto.cmake file.
+\noindent Inside the same directory user can also specify options for humoto compilation inside \texttt{humoto.cmake} file.
 For possible options refer to the documentation of humoto.
 
 \subsection{Installation}
 \noindent The project compiles down to a shared object library (.so) file which is to be copied over onto the robot (for example
-using scp). The library can be placed for example in the directory \$HOME/lib/ in the home directory of the nao user on the
-robot. Once copied, the file should be declared inside the file 'autoload.ini' as follows:
-'/path/to/libpeppercontroller.so'. After changing the 'autoload.ini' file naoqi operating system of the robot should be
-rebooted to reread the file. This can be done using the command 'nao restart'.
+using \texttt{scp} tool). The library can be placed for example in the directory \texttt{\$HOME/lib/} in the home directory of the nao user on the
+robot. Once copied, the file should be declared inside the file \texttt{'autoload.ini'} as follows:
+\texttt{'\$HOME/lib/libpeppercontroller.so'}. After changing the \texttt{'autoload.ini'} file naoqi operating system of the robot should be
+rebooted to reread the file. This can be done using the command \texttt{'nao restart'}.
 
 \subsection{Usage}
 \noindent Controller works with motion configuration files written in yaml language. Examples of such files are in the
@@ -84,6 +90,8 @@ value within given time interval
 \end{enumerate}
 
 \noindent Commands above can also be used interactively from, for example, IPython.
+
+\subsection{Usage for visual servoing}
 
 \subsection{Using visualization tool}
 \noindent If compiled with logging enabled, one can make use of the visualization tool based off OpenSceneGraph
