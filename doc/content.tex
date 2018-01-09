@@ -59,7 +59,9 @@ robot. Once copied, the file should be declared inside the file \texttt{'autoloa
 \texttt{'\$HOME/lib/libpeppercontroller.so'}. After changing the \texttt{'autoload.ini'} file naoqi operating system of the robot should be
 rebooted to reread the file. This can be done using the command \texttt{'nao restart'}.
 
-\subsection{Usage}
+\section{Usage}
+
+\subsection{Using Python interface}
 \noindent Controller works with motion configuration files written in yaml language. Examples of such files are in the
 \texttt{<controller-pepper>/config/} directory. All files from this directory should be copied to
 \texttt{\$HOME/config-pepper/} directory on the robot as this is the default path where the controller will look for the configuration files 
@@ -113,12 +115,17 @@ robot) \\
 \noindent Functions above can also be used interactively from, for example, IPython. Implementation of the above
 functions can be consulted inside \texttt{<controller-pepper>/controller/pepper\_controller.cpp} file.
 
-\subsection{Usage for visual servoing}
+\subsection{Using for visual servoing}
+\noindent Controller can be used with the \texttt{https://github.com/bip-team/pepper-visual-servoing}
+software in order to run vision-based control loops on pepper. 
+In this setting \texttt{pepper-visual-servoing} should be compiled according to the instructions. Then,
+a respective visual control loop runs off-board and communicates remotely with the \texttt{humoto-controller-pepper}. 
+In order to use the controller with \texttt{pepper-visual-servoing} one needs to compile \texttt{humoto-controller-pepper} from the branch
+\texttt{jm-visual-servoing} and proceed normally according to the previously described installation procedure.
 
 \subsection{Using visualization tool}
 \noindent If compiled with logging enabled, one can make use of the visualization tool based off OpenSceneGraph
-available on github: https://github.com/bip-team/osg-robot-visualizer.git. \\
+available on github: \texttt{https://github.com/bip-team/osg-robot-visualizer.git}. \\
 \noindent It is possible to, instead of sending commands to the robot, stream them into a file. Such file can then serve
 to replay the motion of the robot in the visualization tool. This way one can early detect possible failiures of the
 system without running the risk of damaging the hardware.
-
