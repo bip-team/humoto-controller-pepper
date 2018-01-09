@@ -121,11 +121,21 @@ software in order to run vision-based control loops on pepper.
 In this setting \texttt{pepper-visual-servoing} should be compiled according to the instructions. Then,
 a respective visual control loop runs off-board and communicates remotely with the \texttt{humoto-controller-pepper}. 
 In order to use the controller with \texttt{pepper-visual-servoing} one needs to compile \texttt{humoto-controller-pepper} from the branch
-\texttt{jm-visual-servoing} and proceed normally according to the previously described installation procedure.
+\texttt{jm-visual-servoing} and proceed normally according to the previously described installation procedure. \\ \\
+
+\noindent When compiling the project from \texttt{jm-visual-servoing} branch additional CMake option can be used. \\ \\
+\begin{tabular}{|l|p{5cm}|}
+\hline
+Option & Description \\
+\hline
+\texttt{CONTROLLER\_BASE\_MOTION\_VISION\_ENABLED} & enable or disable base motion for visual servoing \\
+\hline
+\end{tabular} \\
 
 \subsection{Using visualization tool}
 \noindent If compiled with logging enabled, one can make use of the visualization tool based off OpenSceneGraph
 available on github: \texttt{https://github.com/bip-team/osg-robot-visualizer.git}. \\
 \noindent It is possible to, instead of sending commands to the robot, stream them into a file. Such file can then serve
 to replay the motion of the robot in the visualization tool. This way one can early detect possible failiures of the
-system without running the risk of damaging the hardware.
+system without running the risk of damaging the hardware. During controller's run the following file is written
+on disk \texttt{'\$HOME/pepper-controller-log.m'}. This file can then be used as input to the visualizer.
