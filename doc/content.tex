@@ -139,3 +139,15 @@ available on github: \texttt{https://github.com/bip-team/osg-robot-visualizer.gi
 to replay the motion of the robot in the visualization tool. This way one can early detect possible failiures of the
 system without running the risk of damaging the hardware. During controller's run the following file is written
 on disk \texttt{'\$HOME/pepper-controller-log.m'}. This file can then be used as input to the visualizer.
+Visualizer for pepper is not open-source. It can be obtained from inria gforge after registartion:\\
+\texttt{git+ssh://your-gforge-login@scm.gforge.inria.fr/gitroot/ \\ bip-researchsrc/pepper-visualization.git}. Once
+obtained and compiled, one can visualize the motion by copying the \texttt{'\$HOME/pepper-controller-log.m'} file
+into the root directory of the visualizer and running:
+
+\begin{enumerate}
+\item \texttt{'make octave-process'} 
+\item \texttt{'make show'} 
+\end{enumerate}
+
+\noindent It is also possible to record videos using this software. This functionality is available for activation in
+the file \texttt{'pepper\_link\_positions.yaml'} in the project root directory.
