@@ -8,7 +8,6 @@ Initial setup
     5) qibuild add-config mytoolchain -t mytoolchain --default
     6) cd /path/to/workspace/; git clone <controller-pepper>
 
-
 Compilation
 ===========
 
@@ -24,6 +23,12 @@ If your toolchain has a different name:
 Inside cmake input script pepper_controller.cmake located inside cmake
 directory, user can enable or disable options for using hot-starting and
 logging as well as specify the desired solver to be used.
+
+Slightly more detailed documentation of the software can be built using following commands:
+
+- '`make doc`' to build the documentation
+
+- '`make doc-view`' to view it using evince viewer
 
 Installation and usage
 ======================
@@ -56,7 +61,6 @@ use the option '`-n`' in which case robot's arms will be disabled.
 It is also convenient to work with the controller in a interactive manner (ex.
 using '`ipython`').
 
-
 Known issues in Aldebaran's software
 ====================================
 
@@ -81,7 +85,6 @@ Known issues in Aldebaran's software
     velocities. Therefore, we perform correction of the state of the model
     taking into account the measured time difference between subsequent
     function calls.
-
 
 Videos
 ====================================
