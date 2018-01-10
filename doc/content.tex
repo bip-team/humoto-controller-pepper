@@ -15,7 +15,7 @@ to work with humoto-pepper-controller within a qibuild workspace (unless existin
 \end{enumerate}
 
 \noindent For the steps above it is assumed that qibuild is installed onto the system. It can be installed using for example pip
-python packages manager.
+Python packages manager.
 
 \subsection{Compilation}
 \noindent For compilation of the code the Aldebaran (Softbank Robotics) cross-compilation toolchain is required. The
@@ -47,7 +47,7 @@ MPC resolution. When using it make sure humoto is compiled with the respective s
 \texttt{CONTROLLER\_HUMOTO\_IK\_SOLVER\_NAMESPACE} & This variable specifies the name of the solver used for IK
 resolution. When using it make sure humoto is compiled with the respective solver.\\ 
 \hline
-\end{tabular} \\
+\end{tabular} \\ \\
 
 \noindent Inside the same directory user can also specify options for humoto compilation inside \texttt{humoto.cmake} file.
 For possible options refer to the documentation of humoto.
@@ -57,7 +57,9 @@ For possible options refer to the documentation of humoto.
 using \texttt{scp} tool). The library can be placed for example in the directory \texttt{\$HOME/lib/} in the home directory of the nao user on the
 robot. Once copied, the file should be declared inside the file \texttt{'autoload.ini'} as follows:
 \texttt{'\$HOME/lib/libpeppercontroller.so'}. After changing the \texttt{'autoload.ini'} file naoqi operating system of the robot should be
-rebooted to reread the file. This can be done using the command \texttt{'nao restart'}.
+rebooted to reread the file. This can be done using the command \texttt{'nao restart'}. Note that if one removes ALMotion
+module from naoqi (running the controller), and then one wants to use some of its functionality, naoqi must also be
+restarted so that ALMotion gets re-read again.  
 
 \section{Usage}
 
@@ -77,7 +79,12 @@ sequence of motion (previously defined inside a .yaml file). By default the scri
 \texttt{'-p 9559'}. The default port is 9559. Last parameter is the yaml configuration file with the desired motion specified as 
 \texttt{'-c name-of-the-file'}. Examples of configuration files with motion parameters are in the
 \texttt{<controller-pepper>/config/} directory. Before using, inside the script one should modify parameters such as desired joints stiffness,
-time to reach initial and rest position to their liking.\\ \\
+time to reach initial and rest position to their liking.\\
+
+\noindent It can be useful to open the logging stream of naoqi in the terminal through \texttt{ssh}. Once
+\texttt{ssh}'ed it can be done with the following command: \texttt{tail -f /var/log/naoqi/tail-naoqi.log}.
+Short printouts from the controller and other logs can be viewed from there. To make it more clear, it can be convenient
+to work with one terminal \texttt{ssh}'ed into nao displaying logs, and another calling Python functions.\\
 
 \noindent Here below we include a short description of the calls to the module's interface through python. \\ \\
 \begin{tabular}{|l|p{5cm}|}
@@ -110,18 +117,18 @@ robot) \\
 \hline
 \texttt{setActuators(time, value)} & set actuators position to given value withon given time interval \\
 \hline
-\end{tabular} \\
+\end{tabular} \\ \\
 
 \noindent Functions above can also be used interactively from, for example, IPython. Implementation of the above
 functions can be consulted inside \texttt{<controller-pepper>/controller/pepper\_controller.cpp} file.
 
-\subsection{Using for visual servoing}
+\subsection{Using visual servoing}
 \noindent Controller can be used with the \texttt{https://github.com/bip-team/pepper-visual-servoing}
 software in order to run vision-based control loops on pepper. 
 In this setting \texttt{pepper-visual-servoing} should be compiled according to the instructions. Then,
 a respective visual control loop runs off-board and communicates remotely with the \texttt{humoto-controller-pepper}. 
 In order to use the controller with \texttt{pepper-visual-servoing} one needs to compile \texttt{humoto-controller-pepper} from the branch
-\texttt{jm-visual-servoing} and proceed normally according to the previously described installation procedure. \\ \\
+\texttt{jm-visual-servoing} and proceed normally according to the previously described installation procedure. \\ 
 
 \noindent When compiling the project from \texttt{jm-visual-servoing} branch additional CMake option can be used. \\ \\
 \begin{tabular}{|l|p{5cm}|}
@@ -142,7 +149,8 @@ on disk \texttt{'\$HOME/pepper-controller-log.m'}. This file can then be used as
 Visualizer for pepper is not open-source. It can be obtained from inria gforge after registartion:\\
 \texttt{git+ssh://your-gforge-login@scm.gforge.inria.fr/gitroot/ \\ bip-researchsrc/pepper-visualization.git}. Once
 obtained and compiled, one can visualize the motion by copying the \texttt{'\$HOME/pepper-controller-log.m'} file
-into the root directory of the visualizer and running:
+into the root directory of the visualizer, adjusting the \texttt{HUMOTO\_LOG} variable in the \texttt{Makefile}
+to correspond to the file with logs and running:
 
 \begin{enumerate}
 \item \texttt{'make octave-process'} 
@@ -150,4 +158,5 @@ into the root directory of the visualizer and running:
 \end{enumerate}
 
 \noindent It is also possible to record videos using this software. This functionality is available for activation in
-the file \texttt{'pepper\_link\_positions.yaml'} in the project root directory.
+the file \texttt{'pepper\_link\_positions.yaml'} in the project root directory. Other options of visualization can be
+set inside this file as well using \texttt{yaml} format.
