@@ -59,7 +59,21 @@ robot. Once copied, the file should be declared inside the file \texttt{'autoloa
 \texttt{'\$HOME/lib/libpeppercontroller.so'}. After changing the \texttt{'autoload.ini'} file naoqi operating system of the robot should be
 rebooted to reread the file. This can be done using the command \texttt{'nao restart'}. Note that if one removes ALMotion
 module from naoqi (running the controller), and then one wants to use some of its functionality, naoqi must also be
-restarted so that ALMotion gets re-read again.  
+restarted so that ALMotion gets re-read again.\\ 
+
+\noindent Example of using \texttt{scp} to copy the file onto the robot:
+
+- Type \texttt{'scp libpeppercontroller.so nao@10.42.0.61:/home/nao/lib'}.\\
+
+\noindent when prompted for password, type \texttt{nao} which is the default password for the user \texttt{nao}.
+Note that, your ip is likely to be different than the one above. Knowing the network address, to discover the ip:\\
+
+- Type \texttt{'sudo nmap -sP 10.42.0.*'}.\\
+
+\noindent One can also press shortly the chest button of the robot to discover its ip address.\\ \\
+\noindent After building the project, the file
+\texttt{libpeppercontroller.so} can be found inside the folder:\\
+\texttt{<controller-pepper>/controller/build-<name-of-toolchain>/sdk/lib}
 
 \section{Usage}
 
@@ -85,6 +99,26 @@ time to reach initial and rest position to their liking.\\
 \texttt{ssh}'ed it can be done with the following command: \texttt{tail -f /var/log/naoqi/tail-naoqi.log}.
 Short printouts from the controller and other logs can be viewed from there. To make it more clear, it can be convenient
 to work with one terminal \texttt{ssh}'ed into nao displaying logs, and another calling Python functions.\\
+
+\noindent Humoto parameters of IK and MPC controllers are configured by default from a file\\
+\texttt{pepper-controller-config.yaml} included inside the \texttt{\$HOME/config-pepper} directory on the robot. There are currently three
+files to be used:\\
+\begin{tabular}{|l|p{5cm}|}
+\hline
+File & Description \\
+\hline
+\texttt{pepper-controller-config.yaml} & Motion controller.\\
+\hline
+\texttt{pepper-controller-config-vs-basemotion.yaml} & Motion controller using visual servoing with moving base.\\ \hline
+\texttt{pepper-controller-config-vs-nobasemotion.yaml} & Motion controller using visual servoing with immobile base.\\ 
+\hline
+\end{tabular} \\ \\
+
+\noindent Given that by default the controller loads file \texttt{pepper-controller-config.yaml}, when one wants to use 
+another configuration file, they should rename it accordingly.
+
+\noindent Parameters specific to the \texttt{PepperController} module are configured inside file\\
+\texttt{pepper-controller-parameters.yaml}.\\
 
 \noindent Here below we include a short description of the calls to the module's interface through python. \\ \\
 \begin{tabular}{|l|p{5cm}|}
