@@ -54,16 +54,16 @@ For possible options refer to the documentation of humoto.
 
 \subsection{Installation}
 \noindent The project compiles down to a shared object library (.so) file which is to be copied over onto the robot (for example
-using \texttt{scp} tool). The library can be placed for example in the directory \texttt{\$HOME/lib/} in the home directory of the nao user on the
+using \texttt{scp} tool). The library can be placed for example in the directory \texttt{\$HOME/libs/} in the home directory of the nao user on the
 robot. Once copied, the file should be declared inside the file \texttt{'autoload.ini'} as follows:
-\texttt{'\$HOME/lib/libpeppercontroller.so'}. After changing the \texttt{'autoload.ini'} file naoqi operating system of the robot should be
+\texttt{'\$HOME/libs/libpeppercontroller.so'}. After changing the \texttt{'autoload.ini'} file naoqi operating system of the robot should be
 rebooted to reread the file. This can be done using the command \texttt{'nao restart'}. Note that if one removes ALMotion
 module from naoqi (running the controller), and then one wants to use some of its functionality, naoqi must also be
 restarted so that ALMotion gets re-read again.\\ 
 
 \noindent Example of using \texttt{scp} to copy the file onto the robot:
 
-- Type \texttt{'scp libpeppercontroller.so nao@10.42.0.61:/home/nao/lib'}.\\
+- Type \texttt{'scp libpeppercontroller.so nao@10.42.0.61:/home/nao/libs'}.\\
 
 \noindent when prompted for password, type \texttt{nao} which is the default password for the user \texttt{nao}.
 Note that, your ip is likely to be different than the one above. Knowing the network address, to discover the ip:\\
@@ -73,7 +73,7 @@ Note that, your ip is likely to be different than the one above. Knowing the net
 \noindent One can also press shortly the chest button of the robot to discover its ip address.\\ \\
 \noindent After building the project, the file
 \texttt{libpeppercontroller.so} can be found inside the folder:\\
-\texttt{<controller-pepper>/controller/build-<name-of-toolchain>/sdk/lib}
+\texttt{<controller-pepper>/controller/build-<name-of-toolchain>/sdk/lib/naoqi}
 
 \section{Usage}
 
